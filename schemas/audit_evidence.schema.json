@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/mcp-governance/audit-evidence.schema.json",
+  "title": "Audit Evidence Record",
+  "description": "Schema for complete governance decision evidence records",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "schema_version",
+    "workflow_name",
+    "submitted_by",
+    "team",
+    "service_name",
+    "service_type",
+    "data_classification",
+    "environment",
+    "risk_level",
+    "decision",
+    "decision_reason",
+    "decision_timestamp",
+    "findings_count",
+    "max_severity",
+    "findings",
+    "evidence_location"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EVD-\\d{4}-\\d{3,}$",
+      "description": "Unique evidence record identifier in EVD-YYYY-NNN format"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "workflow_name": { "type": "string", "minLength": 1 },
+    "submitted_by": { "type": "string", "minLength": 1 },
+    "requester_email": { "type": "string", "format": "email" },
+    "team": { "type": "string", "minLength": 1 },
+    "service_name": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "type": "string",
+      "enum": ["mcp_server", "ai_service", "external_api"]
+    },
+    "vendor_name": { "type": "string" },
+    "data_classification": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "restricted"]
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["sandbox", "development", "staging", "production"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "prohibited"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["auto_allow", "human_review", "auto_deny"]
+    },
+    "decision_reason": { "type": "string", "minLength": 1 },
+    "decision_timestamp": { "type": "string", "format": "date-time" },
+    "findings_count": { "type": "integer", "minimum": 0 },
+    "max_severity": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "prohibited"]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "severity", "human_review_required"],
+        "properties": {
+          "finding_id": { "type": "string" },
+          "rule_id": { "type": "string" },
+          "rule_title": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "medium", "high", "prohibited"] },
+          "human_review_required": { "type": "boolean" },
+          "description": { "type": "string" },
+          "framework_mappings": { "type": "object" }
+        }
+      }
+    },
+    "asana_task_id": { "type": ["string", "null"] },
+    "asana_task_url": { "type": ["string", "null"], "format": "uri" },
+    "reviewer": { "type": ["string", "null"] },
+    "reviewer_email": { "type": ["string", "null"] },
+    "reviewer_decision": {
+      "type": ["string", "null"],
+      "enum": ["approve", "approve_with_conditions", "deny", "needs_more_information", null]
+    },
+    "reviewer_decision_timestamp": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "approval_conditions": {
+      "type": ["array", "null"],
+      "items": { "type": "string" }
+    },
+    "approval_expiry": { "type": ["string", "null"] },
+    "re_review_trigger": { "type": ["string", "null"] },
+    "denial_reason": { "type": ["string", "null"] },
+    "policy_basis": { "type": ["string", "null"] },
+    "evidence_location": { "type": "string" },
+    "evidence_updated_timestamp": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "_governance_note": { "type": "string" }
+  },
+  "additionalProperties": false
+}

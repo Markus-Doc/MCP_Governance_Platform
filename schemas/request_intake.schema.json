@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/mcp-governance/request-intake.schema.json",
+  "title": "MCP Access Request Intake",
+  "description": "Schema for validating MCP, AI service and external API access requests",
+  "type": "object",
+  "required": [
+    "workflow_name",
+    "requester_name",
+    "requester_email",
+    "team",
+    "service_name",
+    "service_type",
+    "vendor_name",
+    "data_classification",
+    "environment",
+    "external_exposure",
+    "agentic_scope",
+    "business_purpose",
+    "requested_permissions",
+    "review_period"
+  ],
+  "properties": {
+    "workflow_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the workflow or integration being requested"
+    },
+    "requester_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full name of the person submitting the request"
+    },
+    "requester_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the requester"
+    },
+    "team": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Team or department responsible for the integration"
+    },
+    "service_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the AI service, MCP server or external API"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": ["mcp_server", "ai_service", "external_api"],
+      "description": "Type of service being requested"
+    },
+    "vendor_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the vendor or service provider"
+    },
+    "vendor_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Vendor website or service documentation URL"
+    },
+    "data_classification": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "restricted"],
+      "description": "Highest data classification this integration will access"
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["sandbox", "development", "staging", "production"],
+      "description": "Target environment for this integration"
+    },
+    "external_exposure": {
+      "type": "string",
+      "enum": ["none", "vendor", "public_internet"],
+      "description": "Extent to which data leaves the internal environment"
+    },
+    "mcp_tool_scope": {
+      "type": "string",
+      "description": "List of tools exposed by the MCP server (required for mcp_server type)"
+    },
+    "agentic_scope": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Description of what the AI agent can do autonomously versus what requires human confirmation"
+    },
+    "business_purpose": {
+      "type": "string",
+      "minLength": 50,
+      "description": "Specific business justification for the integration"
+    },
+    "requested_permissions": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Specific permissions, scopes or access levels being requested"
+    },
+    "review_period": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Proposed access duration or expiry date"
+    },
+    "credential_storage": {
+      "type": "string",
+      "description": "Where credentials for this integration will be stored"
+    },
+    "prior_review_reference": {
+      "type": ["string", "null"],
+      "description": "Evidence ID of a prior review if this is a re-review or scope extension"
+    }
+  },
+  "additionalProperties": false
+}

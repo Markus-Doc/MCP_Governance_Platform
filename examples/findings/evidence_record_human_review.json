@@ -1,0 +1,83 @@
+{
+  "_governance_note": "Fictional evidence record. No real data, credentials or production decision. Portfolio demonstration only.",
+  "evidence_id": "EVD-2026-001",
+  "schema_version": "1.0",
+  "workflow_name": "customer-data-mcp-pipeline",
+  "submitted_by": "Alex Rivera",
+  "requester_email": "alex.rivera@example-corp.com",
+  "team": "Platform Enablement",
+  "service_name": "CustomerDB MCP Server",
+  "service_type": "mcp_server",
+  "vendor_name": "ThirdParty Data Systems Ltd",
+  "data_classification": "confidential",
+  "environment": "production",
+  "risk_level": "high",
+  "decision": "human_review",
+  "decision_reason": "High severity findings detected: MCP node present (LINT-001), credential references on MCP node (LINT-002), AI agent without approval gate (LINT-004). Security team review required before access approval.",
+  "decision_timestamp": "2026-05-21T09:00:00Z",
+  "findings_count": 4,
+  "max_severity": "high",
+  "findings": [
+    {
+      "finding_id": "FIND-2026-001",
+      "rule_id": "LINT-001",
+      "rule_title": "MCP-related node detected in workflow",
+      "severity": "high",
+      "human_review_required": true,
+      "framework_mappings": {
+        "csa_ai": ["access_control", "human_oversight", "accountability", "auditability"],
+        "maestro": ["tool_execution", "orchestration"]
+      }
+    },
+    {
+      "finding_id": "FIND-2026-003",
+      "rule_id": "LINT-002",
+      "rule_title": "MCP node has credential references",
+      "severity": "high",
+      "human_review_required": true,
+      "framework_mappings": {
+        "csa_ai": ["access_control", "human_oversight", "third_party_risk"],
+        "maestro": ["tool_execution", "external_integration"]
+      }
+    },
+    {
+      "finding_id": "FIND-2026-002",
+      "rule_id": "LINT-004",
+      "rule_title": "AI agent node has no human approval gate",
+      "severity": "high",
+      "human_review_required": true,
+      "framework_mappings": {
+        "csa_ai": ["human_oversight", "accountability", "safe_ai_operation", "auditability"],
+        "maestro": ["orchestration", "governance_observability"]
+      }
+    },
+    {
+      "finding_id": "FIND-2026-004",
+      "rule_id": "LINT-005",
+      "rule_title": "Workflow missing owner metadata",
+      "severity": "medium",
+      "human_review_required": false,
+      "framework_mappings": {
+        "csa_ai": ["accountability", "auditability", "governance_ownership"],
+        "maestro": ["governance_observability"]
+      }
+    }
+  ],
+  "asana_task_id": "1234567890123456",
+  "asana_task_url": "https://app.asana.com/0/1234567890123456/1234567890123456",
+  "reviewer": "Jamie Chen",
+  "reviewer_email": "jamie.chen@example-corp.com",
+  "reviewer_decision": "approve_with_conditions",
+  "reviewer_decision_timestamp": "2026-05-21T14:30:00Z",
+  "approval_conditions": [
+    "Read-only tools only: query_customer_records permitted; export_schema and list_tables not approved",
+    "Sandbox environment only — this approval does not extend to production",
+    "30-day access window; expiry 2026-06-21",
+    "All MCP tool calls must be logged to Cloud Logging before production promotion review",
+    "Re-review required before any promotion to production environment"
+  ],
+  "approval_expiry": "2026-06-21",
+  "re_review_trigger": "Before promotion from sandbox to staging or production; on any change to MCP tool scope or data classification",
+  "evidence_location": "github://MCP_Governance_Platform/examples/findings/evidence_record_human_review.json",
+  "evidence_updated_timestamp": "2026-05-21T14:35:00Z"
+}

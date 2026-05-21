@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/mcp-governance/finding.schema.json",
+  "title": "Linter Finding",
+  "description": "Schema for structured linter finding records",
+  "type": "object",
+  "required": [
+    "finding_id",
+    "rule_id",
+    "rule_title",
+    "severity",
+    "human_review_required",
+    "workflow_name",
+    "description",
+    "remediation",
+    "framework_mappings",
+    "finding_timestamp",
+    "schema_version"
+  ],
+  "properties": {
+    "finding_id": {
+      "type": "string",
+      "pattern": "^FIND-\\d{4}-\\d{3,}$",
+      "description": "Unique finding identifier in FIND-YYYY-NNN format"
+    },
+    "rule_id": {
+      "type": "string",
+      "pattern": "^LINT-\\d{3}$",
+      "description": "Linter rule identifier"
+    },
+    "rule_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "prohibited"]
+    },
+    "human_review_required": {
+      "type": "boolean",
+      "description": "Whether this finding requires human review before the workflow can be approved"
+    },
+    "workflow_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "node_name": {
+      "type": "string",
+      "description": "Name of the workflow node where the finding was detected"
+    },
+    "node_type": {
+      "type": "string",
+      "description": "n8n node type identifier"
+    },
+    "evidence_path": {
+      "type": "string",
+      "description": "JSONPath to the evidence location in the workflow"
+    },
+    "evidence_value": {
+      "type": "string",
+      "description": "The actual value that triggered the finding"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Human-readable description of the finding and its governance significance"
+    },
+    "remediation": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Recommended remediation steps"
+    },
+    "framework_mappings": {
+      "type": "object",
+      "properties": {
+        "csa_ai": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "CSA AI control themes this finding relates to"
+        },
+        "maestro": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "MAESTRO threat layers this finding relates to"
+        },
+        "owasp_llm": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "OWASP LLM Top 10 items this finding relates to"
+        },
+        "enterprise_assurance": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Enterprise assurance framework references"
+        }
+      },
+      "additionalProperties": false
+    },
+    "finding_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the finding was generated"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "_governance_note": {
+      "type": "string",
+      "description": "Note clarifying the fictional or portfolio nature of the record"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "_governance_note": "Fictional finding sample. No real data, credentials or production workflow. Portfolio demonstration only.",
+  "finding_id": "FIND-2026-002",
+  "rule_id": "LINT-004",
+  "rule_title": "AI agent node has no human approval gate",
+  "severity": "high",
+  "human_review_required": true,
+  "workflow_name": "customer-data-mcp-pipeline",
+  "node_name": "AI Agent — Summarise and Route",
+  "node_type": "@n8n/n8n-nodes-langchain.agent",
+  "evidence_path": "nodes[3].type",
+  "evidence_value": "@n8n/n8n-nodes-langchain.agent",
+  "description": "An AI agent node was detected in this workflow with no human approval gate upstream. AI agents with access to MCP tools or external APIs can take actions, call tools, read sensitive data and trigger downstream automations without human confirmation. Without an approval gate, the agent operates with delegated authority that has not been reviewed. This is a high-risk governance gap for any workflow handling non-trivial data or with external tool access.",
+  "remediation": "Add a human approval step between the workflow trigger and the AI agent node. The approval step should require a named reviewer to confirm the agent's scope, data access and intended actions before the agent can call any tools or take any actions with business impact. For automated workflows, document the conditions under which the agent may operate without per-invocation human confirmation, and ensure those conditions are reviewed and approved before deployment.",
+  "framework_mappings": {
+    "csa_ai": [
+      "human_oversight",
+      "accountability",
+      "safe_ai_operation",
+      "auditability"
+    ],
+    "maestro": [
+      "orchestration",
+      "governance_observability"
+    ],
+    "owasp_llm": [
+      "LLM08_excessive_agency",
+      "LLM09_overreliance"
+    ],
+    "enterprise_assurance": [
+      "iso_42001_clause8_human_oversight",
+      "iso_27001_a6_roles_and_responsibilities",
+      "soc2_cc61_logical_access",
+      "zero_trust"
+    ]
+  },
+  "finding_timestamp": "2026-05-21T09:00:00Z",
+  "schema_version": "1.0"
+}

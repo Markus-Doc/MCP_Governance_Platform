@@ -1,0 +1,39 @@
+{
+  "_governance_note": "Fictional finding sample. No real data, credentials or production workflow. Portfolio demonstration only.",
+  "finding_id": "FIND-2026-001",
+  "rule_id": "LINT-001",
+  "rule_title": "MCP-related node detected in workflow",
+  "severity": "high",
+  "human_review_required": true,
+  "workflow_name": "customer-data-mcp-pipeline",
+  "node_name": "MCP Tool Server",
+  "node_type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+  "evidence_path": "nodes[2].type",
+  "evidence_value": "@n8n/n8n-nodes-langchain.mcpClientTool",
+  "description": "MCP client tool node detected in this workflow. MCP-connected tools can access business systems, external services, APIs and sensitive data on behalf of AI agents. The scope, vendor and authorisation boundaries of this MCP server have not been confirmed. A security review is required before this workflow is approved for use with any non-sandbox data or environment.",
+  "remediation": "Conduct a security review of the MCP server configuration, tool scope, credential handling, vendor assurance posture and agentic workflow boundaries. Review the MCP server's authorisation model to confirm confused deputy protections are in place. Document approved tool scope and access conditions before approval.",
+  "framework_mappings": {
+    "csa_ai": [
+      "access_control",
+      "human_oversight",
+      "accountability",
+      "auditability"
+    ],
+    "maestro": [
+      "tool_execution",
+      "orchestration"
+    ],
+    "owasp_llm": [
+      "LLM08_excessive_agency"
+    ],
+    "enterprise_assurance": [
+      "iso_27001_a9_access_control",
+      "iso_27001_a15_supplier_risk",
+      "iso_42001_clause8_human_oversight",
+      "soc2_cc61_logical_access",
+      "zero_trust"
+    ]
+  },
+  "finding_timestamp": "2026-05-21T09:00:00Z",
+  "schema_version": "1.0"
+}

@@ -1,0 +1,30 @@
+{
+  "_comment": "Fictional sample payload — no real data. Prohibited request expected to be auto-denied.",
+  "workflow_name": "analytics-export-agent",
+  "requester_name": "",
+  "requester_email": "",
+  "team": "",
+  "service_name": "Public Analytics Aggregator",
+  "service_type": "external_api",
+  "vendor_name": "Unknown Vendor",
+  "vendor_url": "",
+  "data_classification": "restricted",
+  "environment": "production",
+  "external_exposure": "public_internet",
+  "mcp_tool_scope": "export_all, bulk_download, unrestricted_query",
+  "agentic_scope": "Agent executes data exports and bulk operations without any human confirmation step or scope boundary",
+  "business_purpose": "",
+  "requested_permissions": "Full read/write access to analytics database including customer records",
+  "review_period": "",
+  "credential_storage": "Not specified",
+  "prior_review_reference": null,
+  "expected_decision": "auto_deny",
+  "expected_risk_level": "prohibited",
+  "expected_denial_reasons": [
+    "Restricted data classification to unassessed public endpoint",
+    "No accountable owner identified",
+    "No business purpose provided",
+    "Unrestricted agent execution with no human confirmation",
+    "Excessive permissions for unstated purpose"
+  ]
+}
