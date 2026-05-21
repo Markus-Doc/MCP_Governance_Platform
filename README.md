@@ -1,71 +1,127 @@
-# AI and MCP Access Governance Platform
+# MCP Access Governance Platform
 
-**A working proof of concept and enterprise-ready design pattern for governing AI agent and MCP-connected integrations before they become unmanaged risk.**
-
----
-
-> This project demonstrates a working proof of concept and an enterprise-ready design pattern. It does not claim to be a production deployment, certification, attestation or complete enterprise control environment.
+> **A working proof of concept and enterprise-ready design pattern for governing AI agent and MCP-connected integrations before they become unmanaged risk.**
 
 ---
 
-## The Business Problem
+## The Risk Already in Your Environment
 
-A backend developer wants to connect a new third-party database provider tool through MCP or a related API integration into internal infrastructure. That integration may expose:
+A backend developer connects a new MCP server to internal tooling. The server can read internal documents, query databases and call APIs on behalf of an AI agent.
 
-- Internal service metadata and network context
-- API credentials and access tokens
-- Repository context and intellectual property
-- Sensitive business data or customer records
+The developer moves fast. Your security team does not know the integration exists until it is already in production.
 
-**Security engineers need a repeatable intake and review workflow before approving that integration.**
+This is the default outcome when AI-native development tools meet legacy access governance processes. It is happening now — at most organisations that have adopted AI-enabled workflows.
 
-Without one, organisations face:
+**What that exposure looks like:**
 
-| Risk | Business Impact |
+| Gap | Consequence |
 |---|---|
-| AI access sprawl | Agents accumulate tool access without structured review |
-| Accountability gaps | No documented owner for AI workflows or MCP-connected tools |
-| Audit evidence gaps | No durable record of who reviewed what and what they decided |
-| Shadow integrations | Developers connect MCP servers before security teams know they exist |
-| Framework alignment gaps | No mapping between AI risks and recognised governance controls |
+| Shadow AI integrations | Agents connect to internal systems before any security review |
+| No documented ownership | No accountable person for the AI workflow or its access |
+| No audit trail | Nothing to produce if an incident or compliance review occurs |
+| Inconsistent risk judgements | Each reviewer assesses differently, without documented criteria |
+| Privileged tool access without scope bounds | AI agents accumulate permissions that were never explicitly approved |
 
 ---
 
-## What This Project Demonstrates
+## The Working Solution
 
-The **AI and MCP Access Governance Platform** is a security engineering project proposal, solution design and working n8n proof of concept.
+![MCP Access Governance Platform — n8n Workflow](assets/screenshots/MCP-Gov_N8N-Workflow.png)
 
-It shows how an organisation can introduce practical, repeatable governance around AI agent integrations and MCP-connected tools without slowing legitimate development work.
-
-The platform treats governance as an enabling capability:
-
-- Teams can request AI and MCP integrations through a structured intake path
-- Security engineers receive consistent, classifiable request data
-- Risk is classified automatically using documented rules
-- Low-risk requests are fast-tracked; high-risk requests go to human review
-- Every decision produces durable audit evidence
-- Findings map to recognised governance frameworks
-
-**The request is submitted through Asana. n8n validates the request, checks risk signals, classifies risk, maps findings to governance controls, routes the decision outcome, creates review tasks where needed and records evidence.**
+*The working n8n workflow: intake validation → risk classification → decision routing → human review queue → evidence capture*
 
 ---
 
-## Two Audiences
+## How It Works
 
-### For CISO, Security Leadership and Governance Owners
+Every AI agent integration, MCP server connection or external API access request flows through a structured intake and review process before reaching infrastructure.
 
-- [Executive Landing Page](docs/charter/01-executive-landing.md) — Business problem, risk reduction, governance model and MVP scope
-- [Project Charter](docs/charter/02-project-charter.md) — Full corporate-facing charter with scope, objectives, stakeholders and success criteria
-- [Governance Control Register](docs/governance/08-governance-control-register.md) — Control objectives mapped to workflow behaviour and frameworks
-- [Evidence Model](docs/evidence/09-evidence-model.md) — How evidence is captured, where it lives and what it proves
+```
+Developer submits integration request (Asana)
+              ↓
+Validation — required fields checked, incomplete requests rejected
+              ↓
+Security linter — 9 deterministic policy rules applied automatically
+              ↓
+Risk classifier — Low / Medium / High / Prohibited
+              ↓
+       ┌──────┴──────────────────────────────────┐
+       ↓                                          ↓
+  Auto Allow                               Human Review
+  (Low risk)                     (Medium / High — security team)
+       ↓                                          ↓
+  Evidence Record               Security Review Task (Asana)
+                                                  ↓
+                                       Reviewer Decision
+                                  Approve / Conditional / Deny
+                                                  ↓
+                                       Evidence Record
+```
 
-### For Lead Security Engineers and Implementation Reviewers
+Every path — approval, conditional approval or denial — produces a structured, durable evidence record.
 
-- [Solution Design](docs/solution-design/03-solution-design.md) — Architecture, components, data flow and integration model
-- [Security Architecture](docs/security-architecture/04-security-architecture.md) — Trust model, threat surface, defence controls and enterprise deployment path
-- [n8n Implementation Guide](docs/n8n-implementation/05-n8n-implementation-guide.md) — Workflow import, credential setup, Asana configuration, test run guide
-- [Risk Classification Matrix](docs/governance/06-risk-classification-matrix.md) — How requests are scored and classified
-- [Decision Logic Matrix](docs/governance/07-decision-logic-matrix.md) — Auto allow, human review and auto deny rules
+---
+
+## Control Objectives
+
+Eight control objectives govern the platform. Each maps to workflow behaviour, not documentation intent:
+
+| Control | Objective |
+|---|---|
+| **GOV-01** | Requests captured via structured intake with required fields — incomplete requests are rejected before review |
+| **GOV-02** | Risk classified using documented, deterministic criteria — consistent across all reviewers |
+| **GOV-03** | Material risk routed to human review with a named reviewer — no automated approval for high-risk access |
+| **GOV-04** | Every terminal decision produces a structured audit evidence record |
+| **GOV-05** | Approved access is time-bound and purpose-limited at the point of approval |
+| **GOV-06** | No real provisioning occurs without explicit human sign-off |
+| **GOV-07** | Workflow scope changes are governed by documented architecture boundaries |
+| **GOV-08** | Approved access is flagged for re-review on material scope change |
+
+---
+
+## Risk Classification
+
+Four-level model. Multiple co-occurring risk factors escalate the classification automatically.
+
+| Level | Conditions | Decision Path |
+|---|---|---|
+| **Low** | Pre-approved service, read-only, public or internal data, valid owner, limited scope | Auto Allow |
+| **Medium** | New service, limited sensitive data, new vendor, bounded privilege | Human Review |
+| **High** | Confidential data, external AI service, MCP tool execution with side effects, production environment | Human Review — Security Team |
+| **Prohibited** | Regulated data to unapproved service, broad write access without owner, uncontrolled agent execution | Auto Deny |
+
+---
+
+## Evidence Model
+
+Every approved and denied request produces a structured JSON evidence record containing:
+
+- Request identifier and submitting team
+- Service name, type and access scope
+- Risk classification and contributing factors
+- Framework control tags (ISO 27001, ISO 42001, SOC 2, CSA AI)
+- Decision outcome, reviewer identity and decision timestamp
+- Approved scope limitations and review period
+
+Evidence is written to GitHub (durable, versioned) and Notion (governance knowledge base). The record exists whether the request is approved or denied.
+
+---
+
+## Standards and Framework Alignment
+
+| Standard | Application |
+|---|---|
+| **NIST SP 800-37** | Risk management structure — identify, assess, respond, monitor |
+| **NIST SP 800-30** | Risk assessment language — likelihood, impact, risk level, treatment |
+| **ISO/IEC 27001** | Access control (A.9), supplier risk (A.15), audit logging (A.12.4) |
+| **ISO/IEC 42001** | AI governance: human oversight (8.4), accountability (5.3), AI risk planning (6) |
+| **SOC 2 Type II** | Evidence of control operation over time — structured decision records |
+| **CSA AI Controls Matrix** | Cloud AI governance, access control, data governance, auditability |
+| **MAESTRO** | Agentic AI threat modelling — tool execution, orchestration, external integration layers |
+| **OWASP LLM Top 10** | Prompt injection, excessive agency, sensitive data exposure, tool misuse |
+| **MCP Security Guidance** | Consent, authorisation, tool scope, confused deputy protections |
+
+> This project does not claim formal certification or attestation against any of these frameworks.
 
 ---
 
@@ -73,28 +129,24 @@ The platform treats governance as an enabling capability:
 
 | Platform | Role |
 |---|---|
-| **n8n Cloud** | Workflow orchestration, request validation, risk classification, decision routing, evidence summary |
-| **Asana** | Human review tasks, remediation tracking, operational audit evidence |
-| **Notion** | Governance knowledge base, MCP server inventory, control notes, decision records |
-| **GitHub** | Source control, documentation, workflow exports, evidence artefacts |
+| **n8n Cloud** | Workflow orchestration — validation, risk classification, decision routing, evidence generation |
+| **Asana** | Intake form, human review task queue, remediation tracking |
+| **Notion** | Governance knowledge base, MCP server inventory, decision records |
+| **GitHub** | Source control, documentation, workflow exports, durable evidence artefacts |
 
----
+### Enterprise Deployment Path
 
-## Governance and Standards Alignment
+The PoC is designed to extend to enterprise infrastructure without architectural rework:
 
-This project references and aligns with:
-
-- **NIST SP 800-37** — Risk management framework structure
-- **NIST SP 800-30** — Risk assessment language and treatment
-- **ISO/IEC 27001** — Information security management, access control, supplier risk, auditability
-- **ISO/IEC 42001** — AI management system, AI lifecycle governance, human oversight
-- **SOC 2 Type II style evidence thinking** — Proving controls operate over time
-- **CSA AI Controls Matrix** — Cloud AI governance and security controls
-- **MAESTRO** — Agentic AI and multi-agent threat modelling
-- **OWASP LLM Top 10** — AI application security risks
-- **MCP Security Guidance** — Consent, authorisation, tool access, confused deputy protections
-
-The project does not claim formal certification or attestation against any of these frameworks.
+| Capability | Enterprise Target |
+|---|---|
+| Workflow hosting | Self-hosted n8n on GCP |
+| Identity | Google Workspace |
+| Secrets management | Google Secret Manager |
+| Telemetry and logging | Google Cloud Logging |
+| Security operations | Google Security Operations (SIEM) |
+| Governance reporting | BigQuery |
+| Access protection | GCP IAM + ZTNA overlay |
 
 ---
 
@@ -102,76 +154,68 @@ The project does not claim formal certification or attestation against any of th
 
 ```
 MCP_Governance_Platform/
-├── README.md                          ← This file (Executive Landing Page)
+├── README.md
 ├── docs/
 │   ├── charter/
-│   │   ├── 01-executive-landing.md    ← Executive audience overview
-│   │   └── 02-project-charter.md     ← Full corporate charter
+│   │   ├── 01-executive-landing.md          ← Business problem and governance model
+│   │   └── 02-project-charter.md            ← Full project charter with scope and controls
 │   ├── solution-design/
-│   │   └── 03-solution-design.md     ← Architecture and components
+│   │   └── 03-solution-design.md            ← Architecture, components and data flow
 │   ├── security-architecture/
-│   │   └── 04-security-architecture.md  ← Security model and controls
+│   │   └── 04-security-architecture.md      ← Trust model, threat surface and defence controls
 │   ├── n8n-implementation/
-│   │   └── 05-n8n-implementation-guide.md  ← Import and configuration guide
+│   │   └── 05-n8n-implementation-guide.md   ← Workflow import, credential and test guide
 │   ├── governance/
-│   │   ├── 06-risk-classification-matrix.md
-│   │   ├── 07-decision-logic-matrix.md
-│   │   └── 08-governance-control-register.md
+│   │   ├── 06-risk-classification-matrix.md ← Full scoring model
+│   │   ├── 07-decision-logic-matrix.md       ← Auto allow / review / deny rules
+│   │   └── 08-governance-control-register.md ← Control objectives and framework mapping
 │   └── evidence/
-│       ├── 09-evidence-model.md
+│       ├── 09-evidence-model.md              ← What evidence is captured and what it proves
 │       ├── 10-security-review-checklist.md
 │       ├── 11-demo-script.md
-│       ├── 12-technical-case-study.md
-│       └── annexes/
-│           └── 13-annexes.md
+│       └── 12-technical-case-study.md
 ├── workflows/
 │   └── n8n/
-│       └── mcp_access_governance_poc_v0.json  ← Importable n8n workflow
+│       └── mcp_access_governance_poc_v0.json ← Importable n8n workflow
 ├── examples/
-│   ├── payloads/                      ← Sample request payloads
-│   └── findings/                      ← Sample linter finding outputs
-└── schemas/                           ← JSON schemas for intake and evidence
+│   ├── payloads/                              ← Sample request payloads
+│   └── findings/                             ← Sample linter outputs and evidence records
+└── schemas/                                  ← JSON schemas for intake and evidence
 ```
 
 ---
 
-## Portfolio Publication Materials
+## Reading Guide
 
-For portfolio, case study and public presentation use:
-
-| Document | Purpose |
+| Starting point | Where to go |
 |---|---|
-| [Portfolio Case Study](docs/publication/01-portfolio-case-study.md) | Full case study with workflow screenshot, architecture, controls and evidence model |
-| [Executive Summary](docs/publication/02-executive-summary.md) | CISO and hiring manager summary |
-| [Website Integration Brief](docs/publication/03-website-integration-brief.md) | Guidance for integrating this project into a portfolio website |
-| [Publishing Checklist](docs/publication/04-publishing-checklist.md) | Pre-publication verification checklist |
-| [Asset Index](docs/publication/ASSET_INDEX.md) | All visual and document assets with intended use |
-
-The final working n8n workflow screenshot is at:
-
-```
-assets/screenshots/MCP-Gov_N8N-Workflow.png
-```
+| Business problem and governance model | [Executive Landing Page](docs/charter/01-executive-landing.md) |
+| Full project charter with scope and controls | [Project Charter](docs/charter/02-project-charter.md) |
+| Control objectives and framework mapping | [Governance Control Register](docs/governance/08-governance-control-register.md) |
+| Evidence design and what each record proves | [Evidence Model](docs/evidence/09-evidence-model.md) |
+| Architecture and component model | [Solution Design](docs/solution-design/03-solution-design.md) |
+| Security trust model and threat surface | [Security Architecture](docs/security-architecture/04-security-architecture.md) |
+| Risk scoring logic | [Risk Classification Matrix](docs/governance/06-risk-classification-matrix.md) |
+| Decision rules | [Decision Logic Matrix](docs/governance/07-decision-logic-matrix.md) |
+| Import and run the workflow | [n8n Implementation Guide](docs/n8n-implementation/05-n8n-implementation-guide.md) |
 
 ---
 
-## Quick Start for Reviewers
+## Running the PoC
 
-1. Read the [Executive Landing Page](docs/charter/01-executive-landing.md)
-2. Review the [Project Charter](docs/charter/02-project-charter.md)
-3. Import the [n8n Workflow](workflows/n8n/mcp_access_governance_poc_v0.json) — see [Import Guide](docs/n8n-implementation/05-n8n-implementation-guide.md)
-4. Run a test using the [Demo Script](docs/evidence/11-demo-script.md)
+1. Import [`workflows/n8n/mcp_access_governance_poc_v0.json`](workflows/n8n/mcp_access_governance_poc_v0.json) into n8n
+2. Configure Asana and Notion credentials — see [n8n Implementation Guide](docs/n8n-implementation/05-n8n-implementation-guide.md)
+3. Run a test using the [Demo Script](docs/evidence/11-demo-script.md) with sample payloads in [`examples/payloads/`](examples/payloads/)
+4. Review the evidence output against the [Evidence Model](docs/evidence/09-evidence-model.md)
 
 ---
 
-## Safety and Data Handling
+## Data Safety
 
-All sample data in this repository is fictional. This repository contains no:
+All sample data in this repository is fictional. This repository contains no API keys, OAuth tokens, real customer data, personal information, production credentials or live deployment configuration.
 
-- API keys or OAuth tokens
-- Real customer data or personal information
-- Production credentials or secrets
-- Private organisation identifiers
-- Live deployment configuration
+Workflow exports have been reviewed to confirm all credential references are fictional placeholders.
 
-Workflow exports have been reviewed to confirm all credential IDs are fictional placeholders.
+---
+
+> This project demonstrates a working proof of concept and an enterprise-ready design pattern. It is not a production deployment, a formal certification or a complete enterprise control environment.
