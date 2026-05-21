@@ -4,6 +4,52 @@
 
 ---
 
+## Quick Start — Run the Demo
+
+The workflow ships with a one-click demo trigger and pre-loaded fictional data (DataVault Inc.) so it runs end-to-end without any setup beyond credentials.
+
+### Option A — Import and run in your own n8n instance
+
+1. **Download the workflow JSON:**
+   [`workflows/n8n/mcp_access_governance_v2.json`](workflows/n8n/mcp_access_governance_v2.json)
+
+2. **Import into n8n:**
+   n8n → Workflows → **Import from file** → select the JSON
+
+3. **Add credentials** (Settings → Credentials → New):
+
+   | Credential | Type | Used for |
+   |---|---|---|
+   | `Notion API` | Notion API | Fetch MCP inventory, write evidence log |
+   | `OpenAI API` | OpenAI API | AI Security Research Agent (GPT-4o) |
+   | `Asana Personal Access Token` | Asana | Create security review ticket |
+
+4. **Run the demo:**
+   Open the workflow → click **"Test workflow"** (top right) → the `DEMO: Click to Run` manual trigger fires and the full pipeline executes with mock DataVault Inc. data.
+
+5. **Approve or deny the request** (only for the full human-review path):
+   The workflow pauses at the Wait node. Copy the execution ID shown in the Asana ticket and POST to:
+   ```
+   POST https://<your-n8n-host>/webhook-waiting/<execution-id>
+   Content-Type: application/json
+
+   {"decision": "approved"}
+   ```
+
+> **Note on credentials:** The live instance at `mwalker.app.n8n.cloud` may have credentials rotated or deactivated after the initial demo period. Import the JSON and connect your own credentials for a fully self-contained run.
+
+### Option B — View the live instance (read-only)
+
+The workflow is deployed at:
+`https://mwalker.app.n8n.cloud/workflow/W5dJjUnwbSruXHH3`
+
+Execution history and evidence log entries are visible in the Notion workspace:
+`https://www.notion.so/AI-Governance-Workspace-366ae242418680ceb66ceff42b357d4a`
+
+---
+
+---
+
 > This project demonstrates a working proof of concept and an enterprise-ready design pattern. It does not claim to be a production deployment, certification, attestation or complete enterprise control environment.
 
 ---
