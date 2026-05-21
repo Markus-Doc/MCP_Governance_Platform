@@ -135,6 +135,26 @@ MCP_Governance_Platform/
 
 ---
 
+## Portfolio Publication Materials
+
+For portfolio, case study and public presentation use:
+
+| Document | Purpose |
+|---|---|
+| [Portfolio Case Study](docs/publication/01-portfolio-case-study.md) | Full case study with workflow screenshot, architecture, controls and evidence model |
+| [Executive Summary](docs/publication/02-executive-summary.md) | CISO and hiring manager summary |
+| [Website Integration Brief](docs/publication/03-website-integration-brief.md) | Guidance for integrating this project into a portfolio website |
+| [Publishing Checklist](docs/publication/04-publishing-checklist.md) | Pre-publication verification checklist |
+| [Asset Index](docs/publication/ASSET_INDEX.md) | All visual and document assets with intended use |
+
+The final working n8n workflow screenshot is at:
+
+```
+assets/screenshots/MCP-Gov_N8N-Workflow.png
+```
+
+---
+
 ## Quick Start for Reviewers
 
 1. Read the [Executive Landing Page](docs/charter/01-executive-landing.md)
