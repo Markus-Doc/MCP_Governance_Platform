@@ -10,7 +10,7 @@ A backend developer connects a new MCP server to internal tooling. The server ca
 
 The developer moves fast. Your security team does not know the integration exists until it is already in production.
 
-This is the default outcome when AI-native development tools meet legacy access governance processes. It is happening now — at most organisations that have adopted AI-enabled workflows.
+This is the default outcome when AI-native development tools meet legacy access governance processes. It is happening now. At most organisations that have adopted AI-enabled workflows.
 
 **What that exposure looks like:**
 
@@ -19,14 +19,14 @@ This is the default outcome when AI-native development tools meet legacy access 
 | Shadow AI integrations | Agents connect to internal systems before any security review |
 | No documented ownership | No accountable person for the AI workflow or its access |
 | No audit trail | Nothing to produce if an incident or compliance review occurs |
-| Inconsistent risk judgements | Each reviewer assesses differently, without documented criteria |
+| Inconsistent risk judgements | Each reviewer assesses differently, without a documented criteria |
 | Privileged tool access without scope bounds | AI agents accumulate permissions that were never explicitly approved |
 
 ---
 
 ## The Working Solution
 
-![MCP Access Governance Platform — n8n Workflow](assets/screenshots/MCP-Gov_N8N-Workflow.png)
+![MCP Access Governance Platform n8n Workflow](assets/screenshots/MCP-Gov_N8N-Workflow.png)
 
 *The working n8n workflow: intake validation → risk classification → decision routing → human review queue → evidence capture*
 
@@ -58,7 +58,7 @@ Risk classifier — Low / Medium / High / Prohibited
                                        Evidence Record
 ```
 
-Every path — approval, conditional approval or denial — produces a structured, durable evidence record.
+Every path (approval, conditional approval or denial) produces a structured, durable evidence record.
 
 ---
 
@@ -68,9 +68,9 @@ Eight control objectives govern the platform. Each maps to workflow behaviour, n
 
 | Control | Objective |
 |---|---|
-| **GOV-01** | Requests captured via structured intake with required fields — incomplete requests are rejected before review |
-| **GOV-02** | Risk classified using documented, deterministic criteria — consistent across all reviewers |
-| **GOV-03** | Material risk routed to human review with a named reviewer — no automated approval for high-risk access |
+| **GOV-01** | Requests captured via structured intake with required fields. Incomplete requests are rejected before review |
+| **GOV-02** | Risk classified using documented, deterministic criteria, consistent across all reviewers |
+| **GOV-03** | Material risk routed to human review with a named reviewer. No automated approval for high-risk access |
 | **GOV-04** | Every terminal decision produces a structured audit evidence record |
 | **GOV-05** | Approved access is time-bound and purpose-limited at the point of approval |
 | **GOV-06** | No real provisioning occurs without explicit human sign-off |
@@ -81,13 +81,13 @@ Eight control objectives govern the platform. Each maps to workflow behaviour, n
 
 ## Risk Classification
 
-Four-level model. Multiple co-occurring risk factors escalate the classification automatically.
+Four-level model. Multiple co-occuring risk factors escalate the classification automatically.
 
 | Level | Conditions | Decision Path |
 |---|---|---|
 | **Low** | Pre-approved service, read-only, public or internal data, valid owner, limited scope | Auto Allow |
 | **Medium** | New service, limited sensitive data, new vendor, bounded privilege | Human Review |
-| **High** | Confidential data, external AI service, MCP tool execution with side effects, production environment | Human Review — Security Team |
+| **High** | Confidential data, external AI service, MCP tool execution with side effects, production environment | Human Review, Security Team |
 | **Prohibited** | Regulated data to unapproved service, broad write access without owner, uncontrolled agent execution | Auto Deny |
 
 ---
@@ -111,13 +111,13 @@ Evidence is written to GitHub (durable, versioned) and Notion (governance knowle
 
 | Standard | Application |
 |---|---|
-| **NIST SP 800-37** | Risk management structure — identify, assess, respond, monitor |
-| **NIST SP 800-30** | Risk assessment language — likelihood, impact, risk level, treatment |
+| **NIST SP 800-37** | Risk management structure: identify, assess, respond, monitor |
+| **NIST SP 800-30** | Risk assessment language: likelihood, impact, risk level, treatment |
 | **ISO/IEC 27001** | Access control (A.9), supplier risk (A.15), audit logging (A.12.4) |
 | **ISO/IEC 42001** | AI governance: human oversight (8.4), accountability (5.3), AI risk planning (6) |
-| **SOC 2 Type II** | Evidence of control operation over time — structured decision records |
+| **SOC 2 Type II** | Evidence of control operation over time, structured decision records |
 | **CSA AI Controls Matrix** | Cloud AI governance, access control, data governance, auditability |
-| **MAESTRO** | Agentic AI threat modelling — tool execution, orchestration, external integration layers |
+| **MAESTRO** | Agentic AI threat modelling: tool execution, orchestration, external integration layers |
 | **OWASP LLM Top 10** | Prompt injection, excessive agency, sensitive data exposure, tool misuse |
 | **MCP Security Guidance** | Consent, authorisation, tool scope, confused deputy protections |
 
@@ -129,7 +129,7 @@ Evidence is written to GitHub (durable, versioned) and Notion (governance knowle
 
 | Platform | Role |
 |---|---|
-| **n8n Cloud** | Workflow orchestration — validation, risk classification, decision routing, evidence generation |
+| **n8n Cloud** | Workflow orchestration: validation, risk classification, decision routing, evidence generation |
 | **Asana** | Intake form, human review task queue, remediation tracking |
 | **Notion** | Governance knowledge base, MCP server inventory, decision records |
 | **GitHub** | Source control, documentation, workflow exports, durable evidence artefacts |
@@ -204,7 +204,7 @@ MCP_Governance_Platform/
 ## Running the PoC
 
 1. Import [`workflows/n8n/mcp_access_governance_poc_v0.json`](workflows/n8n/mcp_access_governance_poc_v0.json) into n8n
-2. Configure Asana and Notion credentials — see [n8n Implementation Guide](docs/n8n-implementation/05-n8n-implementation-guide.md)
+2. Configure Asana and Notion credentials, see [n8n Implementation Guide](docs/n8n-implementation/05-n8n-implementation-guide.md)
 3. Run a test using the [Demo Script](docs/evidence/11-demo-script.md) with sample payloads in [`examples/payloads/`](examples/payloads/)
 4. Review the evidence output against the [Evidence Model](docs/evidence/09-evidence-model.md)
 
