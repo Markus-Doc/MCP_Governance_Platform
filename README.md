@@ -1,5 +1,9 @@
 # MCP Access Governance Platform
 
+## Ownership and project family
+
+This repository contains original code, documentation, workflow designs, control logic, and methodology by M. Walker. It forms the MCP Access Governance project family with `Builder_MCP-Obsidian`. The MIT License applies only to original material. Vendor products, integrations, governance frameworks, dependencies, and sample formats retain their own rights. See [NOTICE.md](NOTICE.md).
+
 > **A working proof of concept and enterprise-ready design pattern for governing AI agent and MCP-connected integrations before they become unmanaged risk.**
 
 ---
